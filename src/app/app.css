@@ -99,12 +99,17 @@ button:disabled {
   margin-bottom: 8px;
 }
 .badge {
-  background: #dcfce7;
-  color: #15803d;
+  background: #fef9c3;
+  color: #854d0e;
   font-size: 12px;
   font-weight: bold;
   padding: 4px 10px;
   border-radius: 999px;
+  text-transform: capitalize;
+}
+.badge-concluida {
+  background: #dcfce7;
+  color: #15803d;
 }
 .card p {
   color: #444;
@@ -113,4 +118,37 @@ button:disabled {
 .meta {
   font-size: 13px;
   color: #777;
+}
+.carregando,
+.vazio {
+  color: #666;
+  margin-bottom: 16px;
+}
+.acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.btn-secundario {
+  background: #e5e7eb;
+  color: #1f2937;
+}
+.btn-secundario:hover:not(:disabled) {
+  background: #d1d5db;
+}
+.btn-perigo {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.btn-perigo:hover:not(:disabled) {
+  background: #fecaca;
+}
+.acoes button {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+.form-edicao {
+  margin-bottom: 0;
+  box-shadow: none;
+  padding: 0;
 }

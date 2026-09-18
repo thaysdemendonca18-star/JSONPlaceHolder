@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { TarefaService } from './tarefa';
-
 describe('TarefaService', () => {
   let service: TarefaService;
   beforeEach(() => {

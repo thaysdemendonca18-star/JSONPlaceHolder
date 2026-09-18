@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Cadastro de Tarefa</h1>
+  <h1>Gerenciador de Tarefas · JSONPlaceholder</h1>
   <form class="form" [formGroup]="form" (ngSubmit)="salvar()">
     <label>
       Título
@@ -27,8 +27,8 @@ atividade"
         <input
           type="text"
           formControlName="categoria"
-          placeholder="Classificação da
-tarefa"
+          placeholder="Classificação
+da tarefa"
         />
       </label>
     </div>
@@ -53,22 +53,76 @@ tarefa"
   @if (erro()) {
     <p class="erro">{{ erro() }}</p>
   }
-  @if (tarefas().length > 0) {
-    <div class="lista">
-      <h2>Tarefas criadas</h2>
-      @for (tarefa of tarefas(); track tarefa.id) {
-        <div class="card">
+  <div class="lista">
+    <h2>Tarefas</h2>
+    @if (carregando()) {
+      <p class="carregando">Carregando tarefas...</p>
+    }
+    @if (!carregando() && tarefas().length === 0) {
+      <p class="vazio">Nenhuma tarefa cadastrada ainda.</p>
+    }
+    @for (tarefa of tarefas(); track tarefa.id) {
+      <div class="card">
+        @if (idEmEdicao() === tarefa.id) {
+          <form class="form form-edicao" [formGroup]="formEdicao" (ngSubmit)="salvarEdicao(tarefa)">
+            <label>
+              Título
+              <input type="text" formControlName="titulo" />
+            </label>
+            <label>
+              Descrição
+              <textarea formControlName="descricao"></textarea>
+            </label>
+            <div class="linha">
+              <label>
+                Prioridade
+                <select formControlName="prioridade">
+                  <option value="baixa">Baixa</option>
+                  <option value="media">Média</option>
+                  <option value="alta">Alta</option>
+                </select>
+              </label>
+              <label>
+                Categoria
+                <input type="text" formControlName="categoria" />
+              </label>
+            </div>
+            <label>
+              Data limite
+              <input type="date" formControlName="dataLimite" />
+            </label>
+            <div class="acoes">
+              <button type="submit">Salvar alteração (PUT)</button>
+              <button type="button" class="btn-secundario" (click)="cancelarEdicao()">
+                Cancelar
+              </button>
+            </div>
+          </form>
+        } @else {
           <div class="card-topo">
             <strong>{{ tarefa.titulo }}</strong>
-            <span class="badge">201 Created · id {{ tarefa.id }}</span>
+            <span class="badge" [class.badge-concluida]="tarefa.status === 'concluida'">
+              {{ tarefa.status }}
+            </span>
           </div>
           <p>{{ tarefa.descricao }}</p>
           <p class="meta">
-            {{ tarefa.categoria }} · prioridade {{ tarefa.prioridade }} · status
-            {{ tarefa.status }} · até {{ tarefa.dataLimite }}
+            {{ tarefa.categoria }} · prioridade {{ tarefa.prioridade }}
+            @if (tarefa.dataLimite) {
+              · até {{ tarefa.dataLimite }}
+            }
           </p>
-        </div>
-      }
-    </div>
-  }
+          <div class="acoes">
+            <button type="button" class="btn-secundario" (click)="iniciarEdicao(tarefa)">
+              Editar
+            </button>
+            <button type="button" class="btn-secundario" (click)="alternarStatus(tarefa)">
+              {{ tarefa.status === 'concluida' ? 'Reabrir' : 'Concluir' }}
+            </button>
+            <button type="button" class="btn-perigo" (click)="excluir(tarefa.id)">Excluir</button>
+          </div>
+        }
+      </div>
+    }
+  </div>
 </div>
